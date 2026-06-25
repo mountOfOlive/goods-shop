@@ -38,7 +38,6 @@
       const amount = Number(params.get("amount"));
       const productId = params.get("productId");
       const productName = params.get("productName");
-      const userId = params.get("userId");
 
       const session = await getSession();
       if (!session) { location.href = "auth.html"; return; }
@@ -53,7 +52,7 @@
             "Authorization": "Bearer " + session.access_token,
             "apikey": ANON_KEY,
           },
-          body: JSON.stringify({ paymentKey, orderId, amount, productId, productName, quantity: 1, userId }),
+          body: JSON.stringify({ paymentKey, orderId, amount, productId, productName, quantity: 1 }),
         });
 
         const data = await res.json();

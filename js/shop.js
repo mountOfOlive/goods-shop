@@ -45,7 +45,7 @@ async function buy(productId, productName, price) {
       orderId,
       orderName: productName,
       customerName: session.user.email,
-      successUrl: location.origin + "/goods-shop/success.html?productId=" + productId + "&productName=" + encodeURIComponent(productName) + "&userId=" + session.user.id,
+      successUrl: location.origin + "/goods-shop/success.html?productId=" + productId + "&productName=" + encodeURIComponent(productName),
       failUrl: location.origin + "/goods-shop/fail.html",
     });
   } catch (e) {
