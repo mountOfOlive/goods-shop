@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인 · 굿즈샵</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">굿즈샵</a>
+      <nav id="nav"></nav>
+    </div>
+  </header>
+
+  <div class="auth-wrap">
+    <div class="auth-box">
+      <h1>굿즈샵</h1>
+      <div class="tab-wrap">
+        <button class="tab-btn active" onclick="showTab('login')">로그인</button>
+        <button class="tab-btn" onclick="showTab('signup')">회원가입</button>
+      </div>
+
+      <div id="login-form">
+        <div class="form-group">
+          <label>이메일</label>
+          <input type="email" id="login-email" placeholder="이메일 입력">
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <input type="password" id="login-pw" placeholder="비밀번호 입력">
+        </div>
+        <button class="btn-primary" onclick="doLogin()">로그인</button>
+        <div class="msg" id="login-msg"></div>
+      </div>
+
+      <div id="signup-form" style="display:none">
+        <div class="form-group">
+          <label>이메일</label>
+          <input type="email" id="signup-email" placeholder="이메일 입력">
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <input type="password" id="signup-pw" placeholder="6자 이상">
+        </div>
+        <button class="btn-primary" onclick="doSignup()">회원가입</button>
+        <div class="msg" id="signup-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    renderHeader();
+
+    getSession().then(session => {
+      if (session) location.href = "index.html";
+    });
+
+    function showTab(tab) {
+      const isLogin = tab === "login";
+      document.getElementById("login-form").style.display = isLogin ? "" : "none";
+      document.getElementById("signup-form").style.display = isLogin ? "none" : "";
+      document.querySelectorAll(".tab-btn").forEach((b, i) => {
+        b.classList.toggle("active", (i === 0) === isLogin);
+      });
+    }
+
+    async function doLogin() {
+      const email = document.getElementById("login-email").value.trim();
+      const pw = document.getElementById("login-pw").value;
+      const msg = document.getElementById("login-msg");
+      msg.textContent = "";
+
+      const { error } = await _supabase.auth.signInWithPassword({ email, password: pw });
+      if (error) {
+        msg.className = "msg error";
+        msg.textContent = "이메일 또는 비밀번호가 올바르지 않습니다.";
+      } else {
+        location.href = "index.html";
+      }
+    }
+
+    async function doSignup() {
+      const email = document.getElementById("signup-email").value.trim();
+      const pw = document.getElementById("signup-pw").value;
+      const msg = document.getElementById("signup-msg");
+      msg.textContent = "";
+
+      if (pw.length < 6) {
+        msg.className = "msg error";
+        msg.textContent = "비밀번호는 6자 이상이어야 합니다.";
+        return;
+      }
+
+      const { error } = await _supabase.auth.signUp({ email, password: pw });
+      if (error) {
+        msg.className = "msg error";
+        msg.textContent = error.message;
+      } else {
+        msg.className = "msg success";
+        msg.textContent = "가입 완료! 로그인해주세요.";
+        setTimeout(() => showTab("login"), 1500);
+      }
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        const loginVisible = document.getElementById("login-form").style.display !== "none";
+        if (loginVisible) doLogin(); else doSignup();
+      }
+    });
+  </script>
+</body>
+</html>

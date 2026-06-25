@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 실패 · 굿즈샵</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">굿즈샵</a>
+      <nav id="nav"></nav>
+    </div>
+  </header>
+
+  <div class="result-wrap">
+    <div class="result-box">
+      <div class="result-icon">❌</div>
+      <h2>결제 실패</h2>
+      <p id="fail-msg">결제가 취소되었거나 오류가 발생했습니다.</p>
+      <a href="index.html" class="btn-outline">상품으로 돌아가기</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    renderHeader();
+    const params = new URLSearchParams(location.search);
+    const msg = params.get("message");
+    if (msg) document.getElementById("fail-msg").textContent = decodeURIComponent(msg);
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 완료 · 굿즈샵</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">굿즈샵</a>
+      <nav id="nav"></nav>
+    </div>
+  </header>
+
+  <div class="result-wrap">
+    <div class="result-box">
+      <div class="result-icon" id="icon">⏳</div>
+      <h2 id="title">결제 확인 중...</h2>
+      <p id="desc">잠시만 기다려주세요.</p>
+      <div id="action" style="display:none">
+        <a href="orders.html" class="btn-outline">내 주문 보기</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    renderHeader();
+
+    (async () => {
+      const params = new URLSearchParams(location.search);
+      const paymentKey = params.get("paymentKey");
+      const orderId = params.get("orderId");
+      const amount = Number(params.get("amount"));
+      const productId = params.get("productId");
+      const productName = params.get("productName");
+      const userId = params.get("userId");
+
+      const session = await getSession();
+      if (!session) { location.href = "auth.html"; return; }
+
+      const ANON_KEY = SUPABASE_ANON_KEY;
+
+      try {
+        const res = await fetch(EDGE_FUNCTION_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + session.access_token,
+            "apikey": ANON_KEY,
+          },
+          body: JSON.stringify({ paymentKey, orderId, amount, productId, productName, quantity: 1, userId }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || data.error) {
+          document.getElementById("icon").textContent = "❌";
+          document.getElementById("title").textContent = "결제 처리 실패";
+          document.getElementById("desc").textContent = data.error || "오류가 발생했습니다.";
+        } else {
+          document.getElementById("icon").textContent = "✅";
+          document.getElementById("title").textContent = "결제 완료!";
+          document.getElementById("desc").textContent = `${productName} 구매가 완료되었습니다.`;
+          document.getElementById("action").style.display = "";
+          setTimeout(() => { location.href = "orders.html"; }, 2500);
+        }
+      } catch (e) {
+        document.getElementById("icon").textContent = "❌";
+        document.getElementById("title").textContent = "오류 발생";
+        document.getElementById("desc").textContent = String(e);
+      }
+    })();
+  </script>
+</body>
+</html>
