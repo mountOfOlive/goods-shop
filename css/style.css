@@ -18,6 +18,8 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  /* 홈 바(iOS) 영역 확보 */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* 헤더 */
@@ -27,6 +29,8 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
+  /* 노치/다이나믹 아일랜드 영역 확보 */
+  padding-top: env(safe-area-inset-top);
 }
 .header-inner {
   max-width: 1200px;
@@ -324,3 +328,71 @@ th {
   font-size: 12px;
 }
 tr:hover td { background: #f5f8ff; }
+
+/* PWA 홈 화면 추가 배너 */
+#pwa-banner {
+  position: fixed;
+  bottom: env(safe-area-inset-bottom, 0);
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.10);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  animation: slideUp 0.28s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.pwa-banner-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.pwa-banner-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pwa-banner-text strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.pwa-banner-text span {
+  font-size: 12px;
+  color: var(--text-sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pwa-banner-add {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 36px;
+}
+.pwa-banner-close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-sub);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}

@@ -1,0 +1,25 @@
+{
+  "name": "turingshop",
+  "short_name": "turingshop",
+  "description": "굿즈 판매 온라인 쇼핑몰",
+  "start_url": "/goods-shop/",
+  "scope": "/goods-shop/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3182f6",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
