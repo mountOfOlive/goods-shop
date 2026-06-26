@@ -20,6 +20,85 @@
     </div>
   </header>
 
+  <!-- PWA 소개 배너 (미설치 상태에서만 표시) -->
+  <div id="pwa-hero" class="pwa-hero" style="display:none">
+    <div class="pwa-hero-inner">
+      <img src="/goods-shop/icons/icon.svg" alt="turingshop" class="pwa-hero-icon">
+      <div class="pwa-hero-content">
+        <h2 class="pwa-hero-title">앱처럼 설치하고 더 빠르게</h2>
+        <p class="pwa-hero-desc">turingshop을 홈 화면에 추가하면<br>앱 스토어 없이 바로 쓸 수 있어요</p>
+        <div class="pwa-features">
+          <span class="pwa-feature"><span class="pwa-feature-icon">⚡</span>빠른 실행</span>
+          <span class="pwa-feature"><span class="pwa-feature-icon">📶</span>오프라인 지원</span>
+          <span class="pwa-feature"><span class="pwa-feature-icon">📦</span>설치 불필요</span>
+        </div>
+        <button class="btn-install" id="hero-install-btn">홈 화면에 추가</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 설치 안내 모달 -->
+  <div id="install-modal" class="modal-overlay" style="display:none" onclick="closeInstallModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="document.getElementById('install-modal').style.display='none'">✕</button>
+      <img src="/goods-shop/icons/icon.svg" alt="turingshop" class="modal-icon">
+      <h3 class="modal-title">홈 화면에 추가하기</h3>
+
+      <!-- iOS 안내 -->
+      <div id="guide-ios" style="display:none">
+        <p class="modal-os-label">🍎 iPhone / iPad (Safari)</p>
+        <ol class="install-steps">
+          <li>
+            <span class="step-num">1</span>
+            <span>하단 가운데 <strong>공유 버튼</strong>을 탭하세요</span>
+            <span class="step-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3182f6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            </span>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <span>스크롤해서 <strong>"홈 화면에 추가"</strong>를 탭하세요</span>
+            <span class="step-icon">＋</span>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <span>오른쪽 위 <strong>"추가"</strong>를 탭하면 완료!</span>
+            <span class="step-icon">✓</span>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Android 안내 -->
+      <div id="guide-android" style="display:none">
+        <p class="modal-os-label">🤖 Android (Chrome)</p>
+        <ol class="install-steps">
+          <li>
+            <span class="step-num">1</span>
+            <span>오른쪽 위 <strong>⋮ 메뉴</strong>를 탭하세요</span>
+            <span class="step-icon">⋮</span>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <span><strong>"홈 화면에 추가"</strong>를 탭하세요</span>
+            <span class="step-icon">＋</span>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <span><strong>"추가"</strong>를 탭하면 완료!</span>
+            <span class="step-icon">✓</span>
+          </li>
+        </ol>
+        <button class="btn-install" id="modal-install-btn" style="margin-top:16px;width:100%">지금 바로 설치</button>
+      </div>
+
+      <!-- 기타 안내 -->
+      <div id="guide-other" style="display:none">
+        <p class="modal-os-label">💻 모바일 브라우저에서</p>
+        <p style="font-size:14px;color:#6b7684;line-height:1.6">Safari(iPhone) 또는 Chrome(Android)에서 접속하면<br>홈 화면 설치 안내가 표시됩니다.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div id="products" class="loading">상품을 불러오는 중...</div>
   </div>
